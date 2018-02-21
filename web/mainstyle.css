@@ -1,0 +1,71 @@
+body {
+    padding: 25px 70px 25px 70px;
+}
+
+h1 {
+    color: #660066;
+}
+
+.login-page input {
+    width: 25%;
+    margin-bottom: 20px;
+}
+
+.login-page button {
+    margin-bottom: 20px;
+}
+
+#bookListing img {
+    width: 500px;
+    height: 700px;
+}
+
+.bookspace div{
+    margin-bottom: 100px;
+}
+
+#sinopsis {
+    font-size: 22px;
+}
+
+#price {
+    font-size: 36px;
+    color: #660066;
+}
+
+#bookDetails img{
+    width: 500px;
+    height: 700px;
+    float: left;
+    margin-right:30px;
+}
+
+#bookDetails div {
+    margin-bottom: 30px;
+}
+
+#purchasesuccess {
+    color: white;
+    background-color: green;
+}
+
+#loginErr {
+    color: white;
+    background-color: red;
+}
+
+#headingWithCart {
+    height:100px;
+}
+
+#headingWithCart h1{
+    float: left;
+}
+
+#headingWithCart form{
+    float: right;
+}
+
+.cartitem {
+    margin-bottom: 30px;
+}
