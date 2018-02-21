@@ -67,5 +67,14 @@ h1 {
 }
 
 .cartitem {
+    width: 70%;
     margin-bottom: 30px;
+}
+
+.cartitem b {
+    float: right;
+}
+
+#checkoutoptions {
+    
 }

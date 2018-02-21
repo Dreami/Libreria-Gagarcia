@@ -4,9 +4,25 @@
         <servlet-name>loginServlet</servlet-name>
         <servlet-class>gagarciaPackages.loginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>paymentValidateServlet</servlet-name>
+        <servlet-class>gagarciaPackages.paymentValidateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>paymentFormServlet</servlet-name>
+        <servlet-class>gagarciaPackages.paymentFormServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>paymentValidateServlet</servlet-name>
+        <url-pattern>/paymentValidateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>paymentFormServlet</servlet-name>
+        <url-pattern>/paymentFormServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

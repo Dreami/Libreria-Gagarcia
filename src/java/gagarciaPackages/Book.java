@@ -16,14 +16,16 @@ public class Book {
     private String description;
     private String sinopsis;
     private float price;
+    private int amount;
 
     public Book(String cover, String description, String sinopsis, float price) {
         this.cover = cover;
         this.description = description;
         this.sinopsis = sinopsis;
         this.price = price;
+        this.amount = 1;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -79,5 +81,13 @@ public class Book {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+    
+    public void addOne() {
+        amount++;
+    }
+    
+    public int getAmount() {
+        return amount;
     }
 }

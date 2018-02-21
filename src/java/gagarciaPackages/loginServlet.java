@@ -18,7 +18,7 @@ public class loginServlet extends HttpServlet {
     ArrayList<Book> bookList = new ArrayList<>();
     private ArrayList<User> userList = new ArrayList<>();
     public User activeUser;
-    private static final String wrongUserMessage = "<div id='loginErr'>Su contraseña o correo son incorrectos.</div>";
+    private static final String WRONG_USER_MESSAGE = "<div id='loginErr'>Su contraseña o correo son incorrectos.</div>";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class loginServlet extends HttpServlet {
             }
 
             if (activeUser == null) {
-                request.getSession().setAttribute("loginErr", wrongUserMessage);
+                request.getSession().setAttribute("loginErr", WRONG_USER_MESSAGE);
                 response.sendRedirect("index.jsp");
             } else {
                 response.sendRedirect("catalogo.jsp");
@@ -59,9 +59,10 @@ public class loginServlet extends HttpServlet {
             country = request.getParameter("country");
             phone = request.getParameter("phone");
             address = request.getParameter("address");
-
-            userList.add(new User(username, lastname, address, cp, city, state, country, phone, email, password));
-            //stockUpBooks();
+            
+            activeUser = new User(username, lastname, address, cp, city, state, country, phone, email, password);
+            userList.add(activeUser);
+            sc.setAttribute("activeUser", activeUser);
             response.sendRedirect("catalogo.jsp");
         }
     }

@@ -20,20 +20,20 @@ public class Cart {
         totalPrice = 0;
     }
     
-    public void addToCart(Book b) {
-        books.add(b);
+    public void addToCart(ArrayList<Book> allBooks) {
+        books = allBooks;
         totalPrice = calculateTotal();
     }
     
-    public void removeFromCart(Book b) {
-        books.remove(b);
-        totalPrice = calculateTotal();
+     public void dumpCart(Book b) {
+        books.removeAll(books);
+        totalPrice = 0;
     }
     
     private float calculateTotal() {
         float priceSum = 0;
         for(Book b : books) {
-            priceSum += b.getPrice();
+            priceSum += b.getPrice() * b.getAmount();
         }
         return priceSum;
     }

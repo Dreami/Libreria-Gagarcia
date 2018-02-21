@@ -20,23 +20,31 @@ import javax.servlet.http.HttpServletResponse;
  * @author maple
  */
 @WebServlet(name = "purchaseServlet", urlPatterns = {"/purchaseServlet"})
-public class purchaseServlet extends HttpServlet{
-    
+public class purchaseServlet extends HttpServlet {
+
     private Cart cart;
-    
+    private ArrayList<Book> books = new ArrayList<>();
+    ServletContext sc;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(cart == null) {
+        if (cart == null) {
             cart = new Cart();
         }
-        if(request.getParameter("purchase") != null) {
+        if (request.getParameter("purchase") != null) {
             Book b = findBook(request.getParameter("purchase"));
-            if(b != null) {
-                cart.addToCart(b);
+            if (b != null) {
+                if (books.contains(b)) {
+                    b.addOne();
+                } else {
+                    books.add(b);
+                }
                 request.getSession().setAttribute("purchaseSuccess", "<div id='purchasesuccess'><p>Agregado al carrito</p></div>");
                 response.sendRedirect("detallelibro.jsp?cover=" + b.getCover());
             }
-        } else if(request.getParameter("checkout") != null) {
+        } else if (request.getParameter("checkout") != null) {
+            cart.addToCart(books);
+            sc.setAttribute("cart", cart);
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
 
@@ -50,31 +58,46 @@ public class purchaseServlet extends HttpServlet{
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Carrito de compras</h1>");
-            if(cart.getBooks().size() < 1) {
+            if (cart.getBooks().size() < 1) {
                 out.println("<h3>Tu carrito esta vacio</h3>");
-            }
-            for(Book b : cart.getBooks()) {
-                out.println("<div class='cartitem'>");
-                out.println("<fieldset>");
-                out.println("<img src='images/" + b.getCover() + "' height=140 width=92px/>");
-                out.println("<legend>" + b.getDescription() + "<br>");
-                out.println("<b>$" + b.getPrice() + "</b></legend>");
-                out.println("</fieldset>");
+            } else {
+                for (Book b : cart.getBooks()) {
+                    out.println("<div class='cartitem'>");
+                    out.println("<fieldset>");
+                    out.println("<img src='images/" + b.getCover() + "' height=140 width=92px/>");
+                    out.println("<legend>" + b.getDescription() + " x " + b.getAmount() + "<br>");
+                    out.println("<b>$" + b.getPrice() * b.getAmount() + "</b></legend>");
+                    out.println("</fieldset>");
+                    out.println("</div>");
+                }
+                out.println("<div>");
+                out.println("<h3>Total: $" + cart.getTotalPrice() + "</h3>");
                 out.println("</div>");
+                out.println("<div id=checkoutoptions>");
+                out.println("<form method='POST' action='paymentFormServlet'>");
+                out.println("<button type='submit' class='btn btn-success'>Proceder a pagar</button>");
+                out.println("</form>");
+                out.println("<form method='POST' action='purchaseServlet'>");
+                out.println("<button name='checkout' type='submit' class='btn btn-default'>Limpiar carrito</button>");
+                out.println("</form>");
+                out.println("</div>");
+                out.println("</body>");
+                out.println("</html>");
             }
-            out.println("</body>");
-            out.println("</html>");
         }
     }
-    
+
     private Book findBook(String cover) {
-        ServletContext sc = getServletContext();
+        sc = getServletContext();
         ArrayList<Book> bookList = (ArrayList<Book>) sc.getAttribute("bookList");
-        for(Book b : bookList) {
-            if(b.getCover().equals(cover)) return b;
+        for (Book b : bookList) {
+            if (b.getCover().equals(cover)) {
+                return b;
+            }
         }
         return null;
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
