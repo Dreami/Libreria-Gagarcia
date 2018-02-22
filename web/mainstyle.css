@@ -76,5 +76,28 @@ h1 {
 }
 
 #checkoutoptions {
-    
+    width: 70%;
+}
+
+
+#cardDetails div {
+    clear: right;
+    margin-bottom: 30px;
+}
+
+#deliveryInfo {
+    clear: right;
+    margin-bottom: 30px;
+}
+
+#receipt {
+    width: 800px;
+}
+
+#paymentMethodForm button{
+    clear: both;
+}
+
+#cardExpiration {
+    width: 40%;
 }

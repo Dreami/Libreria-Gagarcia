@@ -16,6 +16,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <img src="images/logo.png"/>
         <h1>Registrate</h1>
         <form method="POST" action="loginServlet">
             <div class="login-page">

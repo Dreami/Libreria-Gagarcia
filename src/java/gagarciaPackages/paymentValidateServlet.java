@@ -7,6 +7,9 @@ package gagarciaPackages;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class paymentValidateServlet extends HttpServlet {
 
+    private User activeUser;
+    private Cart cart;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -29,19 +34,35 @@ public class paymentValidateServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ServletContext sc = getServletContext();
+        activeUser = (User) sc.getAttribute("activeUser");
+        cart = (Cart) sc.getAttribute("cart");
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet paymentValidateServlet</title>");            
+            out.println("<title>Orden recibida</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet paymentValidateServlet at " + request.getContextPath() + "</h1>");
+            out.println("<img src=\"images/logo.png\"/>");
+            out.println("<h1>Su orden ha sido procesado exitosamente.</h1>");
+            out.println("<div id='purchaseSummary'>");
+            out.println("<p>Tarjeta " + request.getParameter("cardType") + "</p>");
+            out.println("<p>Direccion de entrega:" + activeUser.getAddress() + ", " + activeUser.getCity() + ", " + activeUser.getState() + ", " + activeUser.getCountry() + "</p>");
+            out.println("<p>Fecha de entrega: " + LocalDateTime.now().plusDays(10l).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "</p>");
+            out.println("<p>Costo con envio: " + (cart.getTotalPrice() + 75f) + " </p>");
+            out.println("<p>Fecha de compra: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "</p>");
+            out.println("<p><a href='catalogo.jsp'><< Regresar a comprar</a></p>");
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }
+        
+        sc.removeAttribute("cart");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -43,8 +43,12 @@ public class purchaseServlet extends HttpServlet {
                 response.sendRedirect("detallelibro.jsp?cover=" + b.getCover());
             }
         } else if (request.getParameter("checkout") != null) {
-            cart.addToCart(books);
-            sc.setAttribute("cart", cart);
+            if(request.getParameter("checkout").equals("dumpcart"))
+                dumpCart();
+            else
+                cart.addToCart(books);
+            
+            
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
 
@@ -57,10 +61,13 @@ public class purchaseServlet extends HttpServlet {
             out.println("<title>Carrito de compra</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<img src=\"images/logo.png\"/>");
             out.println("<h1>Carrito de compras</h1>");
-            if (cart.getBooks().size() < 1) {
+            if (cart == null || cart.getBooks().isEmpty()) {
                 out.println("<h3>Tu carrito esta vacio</h3>");
+                out.println("<a href='catalogo.jsp'>Regresar</a>");
             } else {
+                sc.setAttribute("cart", cart);
                 for (Book b : cart.getBooks()) {
                     out.println("<div class='cartitem'>");
                     out.println("<fieldset>");
@@ -78,7 +85,7 @@ public class purchaseServlet extends HttpServlet {
                 out.println("<button type='submit' class='btn btn-success'>Proceder a pagar</button>");
                 out.println("</form>");
                 out.println("<form method='POST' action='purchaseServlet'>");
-                out.println("<button name='checkout' type='submit' class='btn btn-default'>Limpiar carrito</button>");
+                out.println("<button name='checkout' value='dumpcart' type='submit' class='btn btn-default'>Limpiar carrito</button>");
                 out.println("</form>");
                 out.println("</div>");
                 out.println("</body>");
@@ -87,6 +94,11 @@ public class purchaseServlet extends HttpServlet {
         }
     }
 
+    private void dumpCart() {
+        cart = new Cart();
+        books.removeAll(books);
+    }
+    
     private Book findBook(String cover) {
         sc = getServletContext();
         ArrayList<Book> bookList = (ArrayList<Book>) sc.getAttribute("bookList");

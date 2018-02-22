@@ -27,6 +27,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <img src="images/logo.png"/>
         ${purchaseSuccess}
         <c:remove var="purchaseSuccess" scope="session" />
         <div id='bookDetails'>

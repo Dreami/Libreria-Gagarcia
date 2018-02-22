@@ -17,6 +17,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <img src="images/logo.png"/>
         <div id="headingWithCart">
             <h1>Catalogo</h1>
             <form method="POST" action="purchaseServlet">

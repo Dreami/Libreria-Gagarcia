@@ -16,6 +16,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <img src="images/logo.png"/>
         <h1>Iniciar sesión</h1>
         <form method="POST" action="loginServlet">
             <div class="login-page">

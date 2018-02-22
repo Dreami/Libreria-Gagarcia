@@ -50,17 +50,128 @@ public class paymentFormServlet extends HttpServlet {
                     out.println("<title>Payment</title>");
                     out.println("</head>");
                     out.println("<body>");
+                    out.println("<img src=\"images/logo.png\"/>");
                     
-                    out.println("<select>");
-                    out.println("<option>Paypal</option>");
-                    out.println("<option>Mastercard</option>");
-                    out.println("<option>VISA</option>");
-                    out.println("<option>American Express</option>");
+                    out.println("<form id='paymentMethodForm' class='form-group' action='paymentValidateServlet' method='POST'>");
+                    out.println("<div id='cardDetails' >");
+                    out.println("<h1>Metodo de pago</h1>");
+                    out.println("<div id='choosecard'");
+                    out.println("<legend>Seleccione su tarjeta</legend>");
+                    out.println("<select name='cardType' class='form-control'>");
+                    out.println("<option value='Paypal'>Paypal</option>");
+                    out.println("<option value='Mastercard'>Mastercard</option>");
+                    out.println("<option value='VISA'>VISA</option>");
+                    out.println("<option value='American Express'>American Express</option>");
                     out.println("</select>");
+                    out.println("</div>");
                     
-                    out.println("");
                     
-                    out.println("<h1>Servlet paymentFormServlet at " + request.getContextPath() + "</h1>");
+                    
+                    out.println("<div id='cardHolderForm' ");
+                    out.println("<label >Nombre: </label>");
+                    out.println("<input class='form-control'  value='" + activeUser.getUn() + " " + activeUser.getLn() + "' placeholder='i.e. Dracula'>");
+                    out.println("</div>");
+                    
+                    out.println("<div id='cardNumberForm' ");
+                    out.println("<label >Numero de tarjeta: </label>");
+                    out.println("<input class='form-control ' maxlength='16' required>");
+                    out.println("</div>");
+                    
+                    out.println("<div id='cardExpiration' ");
+                    out.println("<label >Expiration date: </label>");
+                    out.println("<input class='form-control'  placeholder='MM' maxlength='2' required>");
+                    out.println("<input class='form-control' placeholder='YY' maxlength='2' required>");
+                    out.println("</div>");
+                    
+                    out.println("<div id='securitycodeform' ");
+                    out.println("<label >Codigo de seguridad: </label>");
+                    out.println("<input class='form-control ' placeholder='***' maxlength='3' required>");
+                    out.println("</div>");
+                    
+                    out.println("</div>");
+                    
+                    out.println("<hr>");
+                    
+                    
+                    
+                    out.println("<div id='deliveryInfo' > ");
+                    out.println("<h1>Direccion de envio</h1>");
+                    out.println("<div ");
+                    out.println("<label >Direccion: </label>");
+                    out.println("<input class='form-control' value='" + activeUser.getAddress() + "' placeholder='Calle Acueducto' required>");
+                    out.println("</div>");
+                    
+                    out.println("<div>");
+                    out.println("<label>Ciudad: </label>");
+                    out.println("<input class='form-control ' value='" + activeUser.getCity() + "' placeholder='Cd. de Mexico' required>");
+                    
+                    
+                    out.println("<label>Estado:</label>");
+                    out.println("<input class='form-control' value='" + activeUser.getState() + "' placeholder='Queretaro' required>");
+                    out.println("</div>");
+                    
+                    out.println("<div ");
+                    out.println("<label >Pais: </label>");
+                    out.println("<input class='form-control ' value='" + activeUser.getCountry() + "' placeholder='Pakistan' required>");
+                    out.println("</div>");
+                    
+                    out.println("<div ");
+                    out.println("<label >Codigo postal: </label>");
+                    out.println("<input class='form-control' value='" + activeUser.getCp() + "' placeholder='54656'>");
+                    out.println("</div>");
+                    
+                    out.println("<div ");
+                    out.println("<label >Celular: </label>");
+                    out.println("<input class='form-control' value='" + activeUser.getPhone() + "' placeholder='8115991230'>");
+                    out.println("</div>");
+                    
+                    out.println("</div>");
+                    
+                    out.println("<div><button type='submit' class='btn btn-success'>Comprar</button></div>");
+                    out.println("</form>");
+                    
+                    out.println("<hr>");
+                    
+                    
+                    out.println("<div id='receipt' </div>");
+                    out.println("<h1>Recibo: </h1>");
+                    out.println("<table class='table table-bordered'>");
+                    out.println("<thead>");
+                    out.println("<tr>");
+                    out.println("<th>Product</th>");
+                    out.println("<th>Amount</th>");
+                    out.println("<th>Total</th>");
+                    out.println("</tr>");
+                    out.println("</thead>");
+                    out.println("<tbody>");
+                    for(Book b: cart.getBooks()) {
+                        out.println("<tr>");
+                        out.println("<td>");
+                        out.println(b.getDescription());
+                        out.println("</td>");
+                        out.println("<td>");
+                        out.println(b.getAmount());
+                        out.println("</td>");
+                        out.println("<td>");
+                        out.println("$ " + b.getPrice() * b.getAmount());
+                        out.println("</td>");
+                        out.println("</tr>");
+                    }
+                    out.println("<tr>");
+                    out.println("<td>Envio</td>");
+                    out.println("<td>-</td>");
+                    out.println("<td>$ 75.00</td>");
+                    out.println("</tr>");
+                    out.println("<tr>");
+                    out.println("<td><b>Total</b></td>");
+                    out.println("<td>-</td>");
+                    out.println("<td><b>$ " + (cart.getTotalPrice() + 75f) + "</b></td>");
+                    out.println("</tr>");
+                    out.println("</tbody>");
+                    out.println("</table>");
+                    out.println("</div>");
+                    
+                    
                     out.println("</body>");
                     out.println("</html>");
                 }

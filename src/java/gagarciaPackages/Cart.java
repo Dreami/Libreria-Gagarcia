@@ -25,11 +25,6 @@ public class Cart {
         totalPrice = calculateTotal();
     }
     
-     public void dumpCart(Book b) {
-        books.removeAll(books);
-        totalPrice = 0;
-    }
-    
     private float calculateTotal() {
         float priceSum = 0;
         for(Book b : books) {
